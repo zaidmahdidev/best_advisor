@@ -23,7 +23,7 @@ class _LayoutState extends State<Layout> {
   }
 
   final List<Widget> _page = [
-    HomeScreen(),
+    InquiryPage(),
     AllFavoritesPage(),
     CartPage(),
     OrderPage(),
@@ -147,12 +147,90 @@ class _LayoutState extends State<Layout> {
 
 
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+
+class InquiryPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'استخدم الأقسام أدناه لطرح استفسارك',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+          ),
+          SizedBox(height: 20),
+          Expanded(
+            child: GridView.count(
+              crossAxisCount: 2,
+              childAspectRatio: 1.3,
+              children: [
+                InquiryCard(title: 'حضانة', icon: Icons.child_care, onTap: () {
+                  // Navigate to حضانة inquiries
+                }),
+                InquiryCard(title: 'إرث', icon: Icons.account_balance, onTap: () {
+                  // Navigate to إرث inquiries
+                }),
+                InquiryCard(title: 'زواج', icon: Icons.favorite, onTap: () {
+                  // Navigate to زواج inquiries
+                }),
+                InquiryCard(title: 'زكاة', icon: Icons.attach_money, onTap: () {
+                  // Navigate to زكاة inquiries
+                }),
+                InquiryCard(title: 'وصية', icon: Icons.gavel, onTap: () {
+                  // Navigate to وصية inquiries
+                }),
+                InquiryCard(title: 'هبة', icon: Icons.card_giftcard, onTap: () {
+                  // Navigate to هبة inquiries
+                }),
+                InquiryCard(title: 'مرور', icon: Icons.drive_eta, onTap: () {
+                  // Navigate to مرور inquiries
+                }),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+
+  }
+}
+
+class InquiryCard extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final VoidCallback onTap;
+
+  InquiryCard({super.key, required this.title, required this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('home'),);
+    return InkWell(
+      onTap: onTap,
+      child: Card(
+        elevation: 8,
+        margin: EdgeInsets.all(8),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 40, color: Colors.blue),
+              SizedBox(height: 10),
+              Text(
+                title,
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -187,6 +265,5 @@ class OrderPage extends StatelessWidget {
     return const Placeholder();
   }
 }
-
 
 
