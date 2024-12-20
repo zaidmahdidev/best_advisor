@@ -1,0 +1,17 @@
+{
+  "login": "Login",
+  "username": "Username",
+  "enterusername": "Enter username",
+  "password": "Password",
+  "enterpassword": "Enter password",
+  "createaccount": "Create account",
+  "donnothaveaccount": "Don't have an account?",
+  "alreadyhaveaccount": "Already have an account?",
+  "confirmpassword": "Confirm password",
+  "enterconfirmpassword": "Enter confirm password",
+  "fieldrequired": "Field requuired",
+  "passwordnotmatch": "Password does not match",
+  "next": "Next",
+  "previous": "Previous",
+  "skip": "Skip"
+}

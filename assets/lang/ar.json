@@ -1,0 +1,17 @@
+{
+  "login": "تسجيل الدخول",
+  "username": "اسم المستخدم",
+  "enterusername": "ادخل اسم المستخدم",
+  "password": "كلمة السر",
+  "enterpassword": "ادخل كلمة السر",
+  "createaccount": "إنشاء حساب",
+  "donnothaveaccount": "ليس لديك حساب؟",
+  "alreadyhaveaccount": "لديك حساب بالفعل؟",
+  "confirmpassword": "تأكيد كلمة السر",
+  "enterconfirmpassword": "ادخل تأكيد كلمة السر",
+  "fieldrequired": "يجب تعبئة الحقل",
+  "passwordnotmatch": "كلمة السر غير مطابقة",
+  "next": "التالي",
+  "previous": "السابق",
+  "skip": "تخطي"
+}

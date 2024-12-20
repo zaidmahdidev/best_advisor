@@ -134,10 +134,6 @@ class _LayoutState extends State<Layout> {
               label: 'السلة',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.book),
-              label: 'طلباتي',
-            ),
-            BottomNavigationBarItem(
               icon: Icon(Icons.settings),
               label: 'الإعدادات',
             ),
