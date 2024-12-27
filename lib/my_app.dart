@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       darkTheme: darkTheme,
       theme: lightTheme,
-      home: Layout(),
+      home: InquiryPage(),
     );
   }
 }

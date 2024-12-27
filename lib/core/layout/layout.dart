@@ -1,6 +1,9 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newproject/core/layout/widget/drawer.dart';
+import 'package:newproject/core/utils/my_extentions.dart';
+import 'package:newproject/features/chatgpt/presentation/page/chatgpt.dart';
 import '../utils/constant/images.dart';
 import '../utils/constant/theme.dart';
 
@@ -23,8 +26,8 @@ class _LayoutState extends State<Layout> {
   }
 
   final List<Widget> _page = [
-    InquiryPage(),
-    AllFavoritesPage(),
+    CartPage(),
+    CartPage(),
     CartPage(),
     OrderPage(),
   ];
@@ -74,7 +77,7 @@ class _LayoutState extends State<Layout> {
                 ),
               ),
               child: Padding(
-                padding: EdgeInsets.all(2),
+                padding: const EdgeInsets.all(2),
                 child: CircleAvatar(
                   backgroundColor: Colors.white,
                   child: Image.asset(
@@ -148,86 +151,195 @@ class _LayoutState extends State<Layout> {
 
 
 
+
 class InquiryPage extends StatelessWidget {
+  final List<String> images = [
+    Images.logo,
+    Images.logo,
+    Images.logo,
+    Images.logo,
+  ];
+
+  final List<String> inquiryTitles = [
+    'حضانة',
+    'إرث',
+    'زواج',
+    'زكاة',
+    'استشارة 1',
+    'استشارة 2',
+    'استشارة 3',
+    'استشارة 3',
+    'استشارة 3',
+    // يمكنك إضافة المزيد من العناوين
+  ];
+
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      endDrawer: const CustomDrawer(),
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                MyTheme.primaryColor,
+                MyTheme.primaryColor.withOpacity(.5),
+              ],
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+            ),
+          ),
+        ),
+        leading: Padding(
+          padding: const EdgeInsets.only(right: 5),
+          child: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.white),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(2),
+              child: CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Image.asset(Images.logo),
+              ),
+            ),
+          ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Badge(
+              label: Text('10'),
+              backgroundColor: CupertinoColors.destructiveRed,
+              child: Icon(Icons.notifications),
+            ),
+          ),
+          IconButton(
+            onPressed: () => Scaffold.of(context).openEndDrawer(),
+            icon: Icon(Icons.menu),
+          ),
+        ],
+        title: Text('المستشار الأمثل'),
+      ),
+      body: ListView(
+        children: [
+          CarouselSlider(
+            items: images.map((image) {
+              return Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(image),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              );
+            }).toList(),
+            options: CarouselOptions(
+              height: 200,
+              autoPlay: true,
+              enlargeCenterPage: true,
+              aspectRatio: 16 / 9,
+            ),
+          ),
+          _buildInquirySection(context, 'الاستفسارات', inquiryTitles),
+
+          _buildInquirySection(context, 'الاستشارات', inquiryTitles),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInquirySection(BuildContext context, String title, List<String> titles) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'استخدم الأقسام أدناه لطرح استفسارك',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              ),
+              TextButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Padding(padding: EdgeInsets.all(10),
+                      child: GridView.count(
+                        crossAxisCount: 2,
+                        childAspectRatio: 1.3,
+                        children: titles.map((title) {
+                          return InquiryCard(title: title, onTap: () {
+                            // Navigate to inquiry details
+                          });
+                        }).toList(),
+                      ),
+                      );
+                    },
+                  );
+                },
+                child: Text('عرض الكل'),
+              ),
+            ],
           ),
-          SizedBox(height: 20),
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 2,
-              childAspectRatio: 1.3,
-              children: [
-                InquiryCard(title: 'حضانة', icon: Icons.child_care, onTap: () {
-                  // Navigate to حضانة inquiries
-                }),
-                InquiryCard(title: 'إرث', icon: Icons.account_balance, onTap: () {
-                  // Navigate to إرث inquiries
-                }),
-                InquiryCard(title: 'زواج', icon: Icons.favorite, onTap: () {
-                  // Navigate to زواج inquiries
-                }),
-                InquiryCard(title: 'زكاة', icon: Icons.attach_money, onTap: () {
-                  // Navigate to زكاة inquiries
-                }),
-                InquiryCard(title: 'وصية', icon: Icons.gavel, onTap: () {
-                  // Navigate to وصية inquiries
-                }),
-                InquiryCard(title: 'هبة', icon: Icons.card_giftcard, onTap: () {
-                  // Navigate to هبة inquiries
-                }),
-                InquiryCard(title: 'مرور', icon: Icons.drive_eta, onTap: () {
-                  // Navigate to مرور inquiries
-                }),
-              ],
-            ),
+          // عرض 4 استفسارات فقط
+          GridView.count(
+            crossAxisCount: 2,
+            childAspectRatio: 1.3,
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            children: titles.take(4).map((title) {
+              return InquiryCard(title: title, onTap: () {
+                // Navigate to inquiry details
+              });
+            }).toList(),
           ),
         ],
       ),
     );
-
   }
 }
 
 class InquiryCard extends StatelessWidget {
   final String title;
-  final IconData icon;
   final VoidCallback onTap;
 
-  InquiryCard({super.key, required this.title, required this.icon, required this.onTap});
+  InquiryCard({Key? key, required this.title, required this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
+    return GestureDetector(
+      // onTap: onTap,
+      onTap: () => context.push(BotScreen()),
       child: Card(
-        elevation: 8,
-        margin: EdgeInsets.all(8),
+        margin: const EdgeInsets.all(8),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(icon, size: 40, color: Colors.blue),
-              SizedBox(height: 10),
-              Text(
-                title,
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
+        child: Stack(
+          children: [
+            Image.asset(Images.logo, width: double.infinity, fit: BoxFit.cover),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(.5),
+                borderRadius: BorderRadius.circular(10),
               ),
-            ],
-          ),
+            ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  title,
+                  style: TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -236,14 +348,6 @@ class InquiryCard extends StatelessWidget {
 
 
 
-class AllFavoritesPage extends StatelessWidget {
-  const AllFavoritesPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
 
 
 
@@ -265,5 +369,4 @@ class OrderPage extends StatelessWidget {
     return const Placeholder();
   }
 }
-
 
